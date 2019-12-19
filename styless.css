@@ -1,0 +1,25 @@
+*
+{
+    d
+}
+#city
+{
+    color: red;
+}
+p
+{
+   color: rebeccapurple; 
+   margin: 10px;
+}
+.podaci
+{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.search
+{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

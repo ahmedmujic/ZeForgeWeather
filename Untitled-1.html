@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styless.css">
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <title>Weather</title>
+</head>
+<script>
+    $(document).ready(function()
+    {
+         
+        $("#btn").click(
+        
+    function(e)
+    {
+        var name=document.querySelector("#grad").value;
+        e.preventDefault();
+        $.ajax
+        (
+           { type: "GET",
+            url: "http://api.openweathermap.org/data/2.5/weather?q="+name+"&APPID=e1603fb9a5d002bd29341af23c0e120f&units=metric",
+            dataType:"jsonp",
+            success: function(podaci)
+            {
+               
+                $("#grad").empty().text((" Grad: "+podaci.name));
+                $("#temperatura").empty().text("Prosječna temperatura: "+parseInt(podaci.main.temp)+"°C");
+                $("#vlaznost").empty().text((" Vlažnost: "+podaci.main.humidity+"%"));
+                $('#mintemperatura').empty().text(" Min temperatura: " + parseInt(podaci.main.temp_min) + "°C");
+                $('#maxtemperatura').empty().text(" Max temperatura: " + parseInt(podaci.main.temp_max) + "°C");
+                $('#brzinavjetra').empty().text(" Brzina vjetra: " + podaci.wind.speed + " m/s");
+                   
+            
+            }
+            }
+           
+        )
+       
+            
+        
+
+    }
+)
+$("#btn1").click(
+        
+        function(e)
+        {
+            var name=document.querySelector("#grad").value;
+            e.preventDefault();
+            $.ajax
+            (
+                {
+                type: "GET",
+            url: "https://api.openweathermap.org/data/2.5/forecast?q="+name+"&appid=9dcd8991f9f548f9d28bc5cf37a80c4e&units=metric",
+            dataType:"jsonp",
+                
+               success:function(podaci){ 
+                var div=document.createElement("div");
+                document.body.appendChild(div); 
+               var days=["Sutra","Prekosutra","Za 3 dana","Za 4 dana","Za 5 dana"];
+                   for(var i=6;i<podaci.list.length;i=i+8)
+                   { 
+                    
+                           if(i==6) {var dan=document.createTextNode(days[0]);
+                            div.appendChild(dan);}
+                           else if(i==14)
+                           { var dan=document.createTextNode(days[1]);
+                            div.appendChild(dan);}
+                            else if(i==22)
+                           { var dan=document.createTextNode(days[2]);
+                            div.appendChild(dan);}
+                            else if(i==30)
+                           { var dan=document.createTextNode(days[3]);
+                            div.appendChild(dan);}
+                            else if(i==38)
+                           { var dan=document.createTextNode(days[4]);
+                            div.appendChild(dan);}
+                           
+                    var p=document.createElement("p");
+                   var pv=document.createElement("p");
+                   var pmt=document.createElement("p");
+                   var pmint=document.createElement("p");
+                   var vs=document.createElement("p");
+                   var pvs=document.createElement("p");
+                   var b=document.createElement("br");
+                    p.setAttribute("id","gradi"+i);
+                    pv.setAttribute("id","vlaz"+i);
+                    pmt.setAttribute("id","maxtemp"+i);
+                    pmint.setAttribute("id","mintemp"+i);
+                    pvs.setAttribute("id","vs"+i);
+                    div.appendChild(p);
+                    div.appendChild(pv);
+                    div.appendChild(pmt);
+                    div.appendChild(pmint);
+                    div.appendChild(pvs);
+                    div.appendChild(b);
+                    $("#gradi"+i).empty().text("Prosječna temperatura: "+parseInt(podaci.list[i].main.temp)+"°C");
+                    $("#vlaz"+i).empty().text((" Vlažnost: "+podaci.list[i].main.humidity+"%"));
+                    $('#maxtemp'+i).empty().text(" Min temperatura: " + parseInt(podaci.list[i].main.temp_min) + "°C");
+                   $('#mintemp'+i).empty().text(" Max temperatura: " + parseInt(podaci.list[i].main.temp_max) + "°C");
+                   $('#vs'+i).empty().text(" Brzina vjetra: " + podaci.list[i].wind.speed + " m/s");
+                    
+               }
+                
+               
+                  }  
+    }
+               
+            )
+     
+        }
+    )
+    })
+   
+    
+
+    </script>
+<body>
+    <div class="search"><form >
+        Grad:<br>
+        <input type="text" id="grad">
+        <br><br>
+        <input type="submit" value="Vrijeme danas" id="btn">
+        <input type="submit" value="Vrijeme narednih 5 dana" id="btn1">
+      </form> </div>
+    <div class="podaci">
+            <p id="grad"></p>
+        <p id="temperatura"></p>
+    <p id="mintemperatura"></p>
+    <p id="maxtemperatura"></p>
+    
+    <p id="vlaznost"></p>
+    <p id="brzinavjetra"></p>
+    <p id="smjervjetra"></p></div>
+  
+    
+</body>
+</html>
